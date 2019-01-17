@@ -1,6 +1,8 @@
 #!/usr/bin/env python3 
 
 import socket 
+import time 
+
 
 HOST = "" 
 PORT = 8001
@@ -16,20 +18,24 @@ def main():
         s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
         s.bind((HOST, PORT))
         s.listen(1) #make socket listen 
-        conn, addr = s.accept() #accept incoming connections
-        print(addr) 
-        full_data = b""
+        #conn, addr = s.accept() #accept incoming connections
+        #print(addr) 
+        #full_data = b""
 
         # makes it listen to forever 
         while True:
+        conn, addr = s.accept() #accept incoming connections
+        print(addr)
+        full_data = b""
             while True:
                 data = conn.recv(BUFFER_SIZE) 
                 if not data:
                     break
                 full_data += data 
         #print(full_data)
-        #send data back as response 
-            conn.sendall(full_data)
+        #send data back as response
+                time.sleep(0.5) 
+                conn.sendall(full_data)
 
 
 if __name__ == "__main__":

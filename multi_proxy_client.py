@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 import socket
-import multiprocessing import Pool 
+from multiprocessing import Pool
 
 
-
-HOST = "www.google.com"
+HOST = "localhost"
 PORT = 8001
 BUFFER_SIZE = 1024
 
 payload = """GET / HTTP/1.0
 Host: www.google.com
-
 """
+
 
 def connect_socket(addr):
     (family, socketype, proto, cannoname, sockaddr) = addr
@@ -19,7 +18,7 @@ def connect_socket(addr):
         s = socket.socket(family,socketype, proto)
         s.connect(sockaddr)
         s.sendall(payload.encode())
-        
+     
         s.shutdown(socket.SHUT_WR)
 
         full_data = b""
@@ -45,6 +44,7 @@ def main():
     with Pool() as p:
         p.map(connect_socket, [addr for _ in range(1,50)])
 
-
 if __name__ == "__main__":
     main()
+
+
